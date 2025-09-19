@@ -51,7 +51,7 @@ runs:
         fi
         echo "snyk_output_sbom=$FILENAME" >> "${GITHUB_OUTPUT}"
     - name: Setup Snyk
-      run: npm install -g snyk
+      uses: snyk/actions/setup@master
     - name: setup node
       uses: actions/setup-node@v3.8.1
       with:
