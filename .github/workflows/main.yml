@@ -1,0 +1,26 @@
+name: SBOM Pipeline
+
+on:
+  workflow_dispatch:  # run manually from GitHub UI
+  push:
+    branches: [ "main" ]  # also run on pushes to main
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Run Snyk SBOM Wrapper
+        uses: ./.github/actions/snyk-sbom-wrapper   # <--- path to your composite action
+        with:
+          scan_directory: '.'   # or '--all-projects'
+          exclude: 'node_modules'
+          sbom_name: 'snyk_sbom_v0.0.1'
+          org: ${{ secrets.SNYK_ORG }}
+          snyk_token: ${{ secrets.SNYK_TOKEN }}
+          artifactory_username: ${{ secrets.ARTIFACTORY_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_TOKEN }}
+          artifactory_destination: 'generic-unsigned-sbom-storage/myapp/releases/v0.0.1'
