@@ -1,4 +1,4 @@
-name: SBOM Pipeline
+name: Build Pipeline
 
 on:
   workflow_dispatch:  # run manually from GitHub UI
